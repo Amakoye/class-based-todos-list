@@ -2,6 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### covers
+
+- State & State changes
+- Props
+- Components/importing/Child components
+- Props callback
+- Exposure to JSX
+
 ## Available Scripts
 
 In the project directory, you can run:
