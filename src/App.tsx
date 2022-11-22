@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Navbar } from "./components/Navbar";
+import { TodoRows } from "./components/TodoRows";
 
 interface AppState {
   userName: string;
@@ -6,7 +8,7 @@ interface AppState {
   todoItems: todoItem[];
 }
 
-type todoItem = {
+export type todoItem = {
   action: string;
   done: boolean;
 };
@@ -29,7 +31,7 @@ export default class App extends Component<any, AppState> {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   }
 
-  newTodo = () => {
+  addTodo = () => {
     this.setState({
       ...this.state,
       todoItems: [
@@ -37,6 +39,12 @@ export default class App extends Component<any, AppState> {
         { action: this.state.newTodo, done: false },
       ],
     });
+  };
+
+  todoRows = () => {
+    return this.state.todoItems.map((item) => (
+      <TodoRows key={item.action} item={item} toggleDone={this.toggleDone} />
+    ));
   };
 
   toggleDone = (todo: todoItem) => {
@@ -48,30 +56,11 @@ export default class App extends Component<any, AppState> {
     });
   };
 
-  todoRows() {
-    return this.state.todoItems.map((item) => (
-      <tr key={item.action}>
-        <td>{item.action}</td>
-        <td>
-          <input
-            type={"checkbox"}
-            checked={item.done}
-            onChange={() => this.toggleDone(item)}
-          />
-        </td>
-      </tr>
-    ));
-  }
-
   render(): React.ReactNode {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12">
-            <h2 className="bg-primary text-white text-center p2">
-              {this.state.userName} Todo list
-            </h2>
-          </div>
+          <Navbar userName={this.state.userName} />
           <div className="col-12">
             <input
               name="newTodo"
@@ -79,7 +68,7 @@ export default class App extends Component<any, AppState> {
               value={this.state.newTodo}
               onChange={(e) => this.onChange(e)}
             />
-            <button className="btn btn-primary mt-1" onClick={this.newTodo}>
+            <button className="btn btn-primary mt-1" onClick={this.addTodo}>
               Add
             </button>
           </div>
